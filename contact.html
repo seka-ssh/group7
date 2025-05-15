@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Form</title>
+    <!-- Include Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #6c63ff;
+            --primary-hover: #5a52e0;
+            --error-color: #e74c3c;
+            --success-color: #2ecc71;
+            --text-color: #333;
+            --light-gray: #f8f9fa;
+            --border-color: #ddd;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: var(--light-gray);
+            color: var(--text-color);
+            background-image: url('pink3.jpg');
+            line-height: 1.6;
+            padding: 20px;
+            background-size: cover;
+        }
+        
+        form {
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 450px;
+            transition: transform 0.3s ease;
+        }
+        
+        form:hover {
+            transform: translateY(-5px);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        
+        label i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        input, textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        
+        input:focus, textarea:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.2);
+            outline: none;
+        }
+        
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        button {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 14px;
+            width: 100%;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        button:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+        }
+        
+        button i {
+            font-size: 18px;
+        }
+        
+        .error-message {
+            color: var(--error-color);
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        .success-message {
+            background: var(--success-color);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            display: none;
+        }
+        
+        @media (max-width: 480px) {
+            form {
+                padding: 20px;
+            }
+            
+            input, textarea {
+                padding: 10px 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <form id="contactForm"  >
+        <div class="success-message" id="successMessage">
+            <i class="fas fa-check-circle"></i> Your message has been sent successfully!
+        </div>
+        
+        <div class="form-group">
+            <label for="name"><i class="fas fa-user"></i> Name:</label>
+            <input type="text" id="name" name="name" placeholder="Enter your name" required>
+            <div class="error-message" id="nameError">Please enter a valid name</div>
+        </div>
+    
+        <div class="form-group">
+            <label for="email"><i class="fas fa-envelope"></i> Email:</label>
+            <input type="email" id="email" name="email" placeholder="Enter your email" required>
+            <div class="error-message" id="emailError">Please enter a valid email address</div>
+        </div>
+    
+        <div class="form-group">
+            <label for="message"><i class="fas fa-comment-dots"></i> Message:</label>
+            <textarea id="message" name="message" placeholder="Write your message here..." required></textarea>
+            <div class="error-message" id="messageError">Please enter your message</div>
+        </div>
+    
+        <button type="submit">
+            <i class="fas fa-paper-plane"></i> Send Message
+        </button>
+    </form>
+
+    <script>
+        document.getElementById('contactForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            // Reset error messages
+            document.querySelectorAll('.error-message').forEach(el => {
+                el.style.display = 'none';
+            });
+            
+            // Validate form
+            let isValid = true;
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const message = document.getElementById('message').value.trim();
+            
+            // Name validation
+            if (name === '') {
+                document.getElementById('nameError').style.display = 'block';
+                isValid = false;
+            }
+            
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                document.getElementById('emailError').style.display = 'block';
+                isValid = false;
+            }
+            
+            // Message validation
+            if (message === '') {
+                document.getElementById('messageError').style.display = 'block';
+                isValid = false;
+            }
+            
+            if (isValid) {
+                // In a real application, you would submit the form here
+                // For demo purposes, we'll show the success message
+                document.getElementById('successMessage').style.display = 'block';
+                
+                // Reset form after 3 seconds
+                setTimeout(() => {
+                    this.reset();
+                    document.getElementById('successMessage').style.display = 'none';
+                }, 3000);
+            }
+        });
+        
+        // Add real-time validation on blur
+        document.getElementById('name').addEventListener('blur', validateName);
+        document.getElementById('email').addEventListener('blur', validateEmail);
+        document.getElementById('message').addEventListener('blur', validateMessage);
+        
+        function validateName() {
+            const name = document.getElementById('name').value.trim();
+            const errorElement = document.getElementById('nameError');
+            
+            if (name === '') {
+                errorElement.style.display = 'block';
+                return false;
+            } else {
+                errorElement.style.display = 'none';
+                return true;
+            }
+        }
+        
+        function validateEmail() {
+            const email = document.getElementById('email').value.trim();
+            const errorElement = document.getElementById('emailError');
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            
+            if (!emailRegex.test(email)) {
+                errorElement.style.display = 'block';
+                return false;
+            } else {
+                errorElement.style.display = 'none';
+                return true;
+            }
+        }
+        
+        function validateMessage() {
+            const message = document.getElementById('message').value.trim();
+            const errorElement = document.getElementById('messageError');
+            
+            if (message === '') {
+                errorElement.style.display = 'block';
+                return false;
+            } else {
+                errorElement.style.display = 'none';
+                return true;
+            }
+        }
+    </script>
+</body>
+</html>
